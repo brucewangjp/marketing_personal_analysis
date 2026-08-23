@@ -36,6 +36,15 @@ An investor researching a listed company, brand, or industry who wants to answer
 - Suggested items to monitor.
 - Evidence links or citations for material claims.
 
+## 4.1 First data sources
+
+The first version uses only:
+
+- **SEC EDGAR** for US public-company filings and structured financial facts.
+- **FRED** for US macroeconomic indicators.
+
+Real-time prices, trade execution, and third-party news feeds are outside the first version.
+
 ## 5. First-release boundaries
 
 - Support research for a limited initial set of markets and public companies.
