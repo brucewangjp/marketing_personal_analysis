@@ -1,4 +1,4 @@
-# Stock Analysis MVP
+# Stock and Industry Sentiment MVP
 
 - Version: v0.1
 - Status: Draft
@@ -6,18 +6,18 @@
 
 ## 1. Goal
 
-Help an individual investor or research user investigate a company or industry by bringing together public market, company, news, competitive, and consumer-demand signals into an evidence-backed research brief.
+Help a research user understand group-level attention and sentiment around a company or industry by combining macroeconomic context with public, aggregated interest signals.
 
-The MVP supports research; it does not provide personalized investment advice or execute trades.
+The MVP supports research; it does not provide personalized investment advice, diagnose individuals, or execute trades.
 
 ## 2. Primary user
 
-An investor researching a listed company, brand, or industry who wants to answer questions such as:
+An investor, seller, or researcher who wants to answer questions such as:
 
-- What has changed recently for this company or industry?
-- What consumer-demand or competitive signals could affect the business?
-- What evidence supports a bullish, bearish, or uncertain view?
-- What should I monitor next?
+- Is attention toward this company or industry growing or declining?
+- Is the broader consumer environment optimistic, cautious, or under pressure?
+- What can and cannot be concluded from the available aggregate signals?
+- What should be monitored next?
 
 ## 2.1 Initial research scope
 
@@ -30,50 +30,55 @@ The product will be designed for company-level research within these sectors bef
 
 ## 3. MVP workflow
 
-1. User enters a company, ticker, or industry and a research question.
+1. User enters a company, industry, or topic and a research question.
 2. User selects a market and time period.
-3. The system gathers approved public signals relevant to the subject.
+3. The system gathers approved macroeconomic and aggregate-attention signals relevant to the subject.
 4. The system creates an evidence table and an AI-generated research brief.
 5. The user saves the project and a watchlist of follow-up topics.
 
 ## 4. Required output
 
-- Company or industry overview.
-- Recent developments and source-backed signals.
-- Consumer-demand, competitive, and market observations where available.
-- Bullish factors, risks, and unresolved questions.
-- Suggested items to monitor.
+- Topic and market overview.
+- Macro context, including consumer sentiment where relevant.
+- Search-interest trend and change over time.
+- Survey-based attitudes, motivations, and stated intentions, including sample limitations.
+- Group-level public-discussion themes when an approved source is available.
+- A clear statement of what the signals suggest and what they do not prove.
+- Unresolved questions and suggested items to monitor.
 - Evidence links or citations for material claims.
 
 ## 4.1 First data sources
 
-The first version uses only:
+The first version uses four complementary signal types:
 
-- **SEC EDGAR** for US public-company filings and structured financial facts.
-- **FRED** for US macroeconomic indicators.
+- **FRED** for US macroeconomic indicators and aggregate consumer-sentiment context.
+- **Google Trends** for anonymized, aggregated search-interest signals.
+- **First-party survey responses** for directly measured attitude, motivation, and stated intent.
+- **Approved public-discussion data** for group-level themes expressed in natural language.
 
-Real-time prices, trade execution, and third-party news feeds are outside the first version.
+Company filings, real-time prices, trade execution, and individual-level profiles are outside the first version.
 
 ## 5. First-release boundaries
 
-- Support research for a limited initial set of markets and public companies.
+- Support US research for a limited initial set of technology and healthcare topics.
 - Use only explicitly approved, public, or licensed sources.
 - Do not make price targets, trade recommendations, or automated orders.
+- Do not claim to know the psychological state of any individual.
 - Show uncertainty when evidence is incomplete or conflicting.
 
 ## 6. Acceptance criteria
 
-- A user can create and save a company or industry research project.
+- A user can create and save a company, industry, or topic research project.
 - The research brief identifies its market and time period.
-- Important claims have traceable evidence.
-- The report separates evidence from AI interpretation.
+- Important claims have traceable evidence and source limitations.
+- The report separates observed signals from AI interpretation.
 - The user can record follow-up questions and monitoring topics.
 
 ## 7. Open decisions
 
 - Which country and exchanges should be supported first?
-- Which approved data sources are available for company, news, and market signals?
-- Should the initial interface begin with a company page or a research-question page?
+- Which approved public-discussion source should be integrated first after a compliance review?
+- Should the initial interface begin with a topic page or a research-question page?
 
 ## Change log
 
