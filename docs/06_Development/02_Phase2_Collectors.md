@@ -16,6 +16,7 @@ layers are unchanged from Phase 1 — which is what Phase 1 was shaped to prove.
 | `app/collectors/fred.py` | FRED, Tier 1 free API. |
 | `app/collectors/trends_csv.py` | Google Trends, Tier 4 manual import and Tier 2 export. |
 | `app/collect.py` | The run: executes collectors, writes records, reports what happened. |
+| `app/check.py` | Self-check: confirms this machine can reach the sources and that their responses still match what the collectors expect. |
 
 ## 2. The contract
 
@@ -75,6 +76,7 @@ is current only to the export. A future automated export adapter passes
 
 ```
 cp .env.example .env          # then add your FRED key
+.venv/bin/python -m app.check # confirm the sources are reachable and understood
 .venv/bin/python -m app.collect --subject "US technology" --window 3m
 ```
 
@@ -86,9 +88,13 @@ unavailable source and reminds the reader that the report will say so.
 
 ## 6. Known limitations
 
-- No collection has been run against the live FRED API from the development sandbox, whose
-  egress proxy rejects `api.stlouisfed.org`. Every collector test runs against a mocked
-  transport. The first real run needs a key and network access.
+- No collection has been run against the live FRED API. The development sandbox's egress
+  proxy rejects every data-source host — `api.stlouisfed.org`, `trends.google.com`,
+  `api.census.gov`, `api.bls.gov`, `apps.bea.gov` — so every collector test runs against a
+  mocked transport, written to the documented response shape rather than an observed one.
+  `python -m app.check` exists for exactly this: it makes one real metadata call and one
+  real observations call, and names any field the collector expects but did not get, so
+  the first real run diagnoses itself instead of failing somewhere deeper.
 - `SUBJECT_SERIES` is empty: sector context is not yet collected.
 - Census, BEA, and BLS collectors — MVP2's measured category sales — are Phase 5.
 - The report cannot distinguish "source not connected" from "source connected but its

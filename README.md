@@ -31,6 +31,7 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 
 cp .env.example .env                # add your free FRED API key
+.venv/bin/python -m app.check       # confirm this machine can reach the sources
 .venv/bin/python -m app.collect --subject "US technology" --window 3m
 .venv/bin/uvicorn app.main:app      # http://127.0.0.1:8000
 
