@@ -23,10 +23,10 @@ An investor researching a listed company, brand, or industry who wants to answer
 
 The first release focuses on US-listed companies connected to:
 
-- Artificial-intelligence infrastructure and software.
-- Semiconductors and semiconductor equipment.
+- Technology.
+- Healthcare.
 
-The product will be designed for company-level research within these sectors before expanding to other industries.
+The product will be designed for company-level research within these sectors before expanding to other industries. The first demonstration cases are Microsoft, NVIDIA, Eli Lilly, and UnitedHealth Group; they are workflow examples, not investment recommendations.
 
 ## 3. MVP workflow
 
