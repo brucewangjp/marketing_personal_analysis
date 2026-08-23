@@ -16,7 +16,8 @@ Every report begins with:
 
 - Industry: US technology or US healthcare.
 - Research question.
-- Time range.
+- Time range: most recent one month or most recent three months.
+- Report cadence: weekly.
 - Geographic scope.
 - Generated date.
 - Sources included and sources not yet available.
@@ -132,6 +133,13 @@ End with a short list of items to follow in the next report:
 ## 12. Development instruction
 
 Claude Code should treat this document as the output contract. It should design the data schema, collection workflow, analysis steps, API shape, and user-interface layout required to create this report reliably.
+
+## 13. Time-window behavior
+
+- A weekly run uses either a one-month or three-month lookback window selected by the user.
+- The report must make the selected window visible in its header and charts.
+- A result from the one-month window should not be compared directly with the three-month window without a clear label.
+- Sources that update less frequently must show their latest available observation date rather than implying they are current to the report date.
 
 ## Change log
 

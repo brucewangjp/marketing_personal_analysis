@@ -45,7 +45,7 @@ flowchart LR
 
 ### 3.1 Research input
 
-The user selects one of the first two industries, defines a research question, and chooses a time range. Example questions include:
+The user selects one of the first two industries, defines a research question, and chooses a one-month or three-month lookback window. The report runs weekly. Example questions include:
 
 - Is public interest in the US technology industry rising or falling?
 - What concerns are most visible around the US healthcare industry?

@@ -33,10 +33,17 @@ The product will be designed for industry-level research within these sectors be
 ## 3. MVP workflow
 
 1. User selects technology or healthcare and writes a research question.
-2. User selects a market and time period.
+2. User selects the reporting window: the most recent one month or the most recent three months.
 3. The system gathers approved macroeconomic and aggregate-attention signals relevant to the subject.
 4. The system creates an evidence table and an AI-generated research brief.
 5. The user saves the project and a watchlist of follow-up topics.
+
+## 3.1 Reporting cadence and time windows
+
+- Run the industry report once per week.
+- Analyze only the most recent one month or the most recent three months for each run.
+- Show the exact start date, end date, retrieval date, and source-update timing in the report.
+- The one-month view is for recent changes; the three-month view is for a broader trend check.
 
 ## 4. Required output
 
