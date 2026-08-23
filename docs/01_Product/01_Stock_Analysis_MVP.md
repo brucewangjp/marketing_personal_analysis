@@ -41,7 +41,7 @@ The product will be designed for company-level research within these sectors bef
 - Topic and market overview.
 - Macro context, including consumer sentiment where relevant.
 - Search-interest trend and change over time.
-- Survey-based attitudes, motivations, and stated intentions, including sample limitations.
+- Published aggregate sentiment measures, including their sample and methodology limitations.
 - Group-level public-discussion themes when an approved source is available.
 - A clear statement of what the signals suggest and what they do not prove.
 - Unresolved questions and suggested items to monitor.
@@ -49,14 +49,13 @@ The product will be designed for company-level research within these sectors bef
 
 ## 4.1 First data sources
 
-The first version uses four complementary signal types:
+The first version uses three types of online, existing signals:
 
-- **FRED** for US macroeconomic indicators and aggregate consumer-sentiment context.
+- **FRED and published aggregate sentiment indicators** for US macroeconomic context and existing consumer or investor sentiment measures.
 - **Google Trends** for anonymized, aggregated search-interest signals.
-- **First-party survey responses** for directly measured attitude, motivation, and stated intent.
 - **Approved public-discussion data** for group-level themes expressed in natural language.
 
-Company filings, real-time prices, trade execution, and individual-level profiles are outside the first version.
+The MVP does not require the user to distribute a questionnaire. Company filings, real-time prices, trade execution, and individual-level profiles are outside the first version.
 
 ## 5. First-release boundaries
 
@@ -77,7 +76,7 @@ Company filings, real-time prices, trade execution, and individual-level profile
 ## 7. Open decisions
 
 - Which country and exchanges should be supported first?
-- Which approved public-discussion source should be integrated first after a compliance review?
+- Which approved public-discussion source and existing investor-sentiment indicator should be integrated first after a compliance review?
 - Should the initial interface begin with a topic page or a research-question page?
 
 ## Change log

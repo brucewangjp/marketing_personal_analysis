@@ -6,14 +6,13 @@
 
 ## 1. Decision
 
-The first Stock and Industry Sentiment MVP will use four complementary data-source types:
+The first Stock and Industry Sentiment MVP will use three types of online, existing data:
 
-1. **FRED** — US macroeconomic data and aggregate consumer-sentiment context.
+1. **FRED and published aggregate sentiment indicators** — US macroeconomic data and existing consumer or investor sentiment measures.
 2. **Google Trends** — anonymized, aggregated search-interest signals.
-3. **First-party survey** — direct responses about attitude, motivations, concerns, and stated intent.
-4. **Approved public-discussion data** — public group discussion used only for aggregated themes and sentiment.
+3. **Approved public-discussion data** — public group discussion used only for aggregated themes and sentiment.
 
-This keeps the first release focused on group-level context, attention, stated attitudes, and discussion themes rather than financial statements, real-time trading data, or individual profiling.
+This keeps the first release focused on group-level context, attention, published attitudes, and discussion themes rather than financial statements, real-time trading data, individual profiling, or newly conducted surveys.
 
 ## 2. FRED
 
@@ -53,29 +52,7 @@ Use Google Trends to understand changes in anonymized, aggregated public search 
 - Do not identify or profile individual searchers.
 - Do not equate search interest with positive sentiment or a decision to buy.
 
-## 4. First-party survey
-
-### Purpose
-
-Use a voluntary questionnaire to measure the target group’s stated attitude, motivations, concerns, confidence, and intended action directly.
-
-### Initial question areas
-
-- Familiarity with the company, industry, or topic.
-- Positive and negative attitudes.
-- Main reasons for interest, confidence, concern, or avoidance.
-- Stated intention to buy, hold, avoid, or learn more, where applicable.
-- Optional broad demographic or experience segments only when necessary to interpret group differences.
-
-### Required safeguards
-
-- Obtain consent and explain the purpose of collection.
-- Do not collect sensitive personal data unless there is a clearly justified and compliant need.
-- Keep identity separate from analysis responses where possible.
-- Report group-level results only; do not generate psychological profiles of individuals.
-- Identify sample size, recruitment method, field dates, and limitations in every report.
-
-## 5. Approved public-discussion data
+## 4. Approved public-discussion data
 
 ### Purpose
 
@@ -94,31 +71,32 @@ Use an approved platform or licensed provider to identify group-level discussion
 - Do not use collected discussion content to train models unless the relevant rights and permissions explicitly allow it.
 - Preserve the source and date for material report evidence.
 
-## 6. Data flow
+## 5. Data flow
 
 1. User selects a US company, industry, or topic and writes a research question.
 2. The system retrieves selected FRED series and Google Trends interest signals.
-3. The system collects consented survey responses and approved public-discussion signals.
+3. The system retrieves approved, published sentiment indicators and approved public-discussion signals.
 4. The system stores normalized evidence with source and time metadata.
 5. The analysis layer creates a research brief that separates source facts from interpretation.
 6. The report links material claims back to the original source.
 
-## 7. Explicit exclusions for the first MVP
+## 6. Explicit exclusions for the first MVP
 
 - Financial statements and company-filings analysis.
+- User-created questionnaires and respondent recruitment.
 - Real-time or delayed stock prices.
 - Trading signals, price targets, or trade execution.
 - Individual psychological profiles or mental-health inferences.
 - Automated collection from sources not explicitly approved.
 - Personalized investment advice.
 
-## 8. Next technical decisions
+## 7. Next technical decisions
 
 - Select the first set of FRED series for macro context and consumer sentiment.
 - Define the initial Google Trends topic list and comparison rules.
-- Design the first survey and recruitment plan.
+- Select existing published investor-sentiment indicators whose use and attribution are permitted.
 - Choose the first approved public-discussion source after a compliance review.
-- Define the normalized evidence schema across all four source types.
+- Define the normalized evidence schema across all three source types.
 - Decide where API credentials will be stored for local development and production.
 
 ## Change log
@@ -128,3 +106,4 @@ Use an approved platform or licensed provider to identify group-level discussion
 | v0.1 | 2026-08-23 | Approved SEC EDGAR and FRED as the first Stock MVP sources. |
 | v0.2 | 2026-08-23 | Replaced SEC EDGAR with Google Trends; refocused the MVP on macro context and group-level attention signals. |
 | v0.3 | 2026-08-23 | Added first-party surveys and approved public-discussion data as core sources. |
+| v0.4 | 2026-08-23 | Removed user-created surveys; refocused on existing online aggregate signals and approved public discussion. |
