@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% macro confidence_pill(level) %}
+  {% set slug = level|lower|replace(' ', '-') %}
+  <span class="pill conf conf-{{ slug }}">{{ level }}</span>
+{% endmacro %}
+
+{% macro record_type_tag(record_type) %}
+  {% set label = {'observation': 'Observation',
+                  'derived_metric': 'Derived metric',
+                  'interpretation': 'Interpretation'}[record_type.value] %}
+  <span class="tag tag-{{ record_type.value|replace('_','-') }}">{{ label }}</span>
+{% endmacro %}
+
+{% macro finding_block(finding) %}
+<li class="finding">
+  <p class="statement">{{ finding.statement }}</p>
+  <p class="finding-meta">
+    {% if finding.record_type %}{{ record_type_tag(finding.record_type) }}{% endif %}
+    {% if finding.confidence %}{{ confidence_pill(finding.confidence) }}{% endif %}
+    {% if finding.evidence %}
+      <span class="muted">{{ finding.evidence|length }} record{{ '' if finding.evidence|length == 1 else 's' }}</span>
+    {% endif %}
+  </p>
+  {% if finding.confidence_reason %}
+  <p class="why"><span class="why-label">Why this level</span> {{ finding.confidence_reason }}</p>
+  {% endif %}
+  {% if finding.limitation %}
+  <p class="limitation"><span class="why-label">Limitation</span> {{ finding.limitation }}</p>
+  {% endif %}
+</li>
+{% endmacro %}
+
+{% block title %}{{ report.header.subject }} — {{ report.header.window_label }}{% endblock %}
+
+{% block content %}
+{% if report.header.contains_sample_data %}
+<p class="banner">
+  This report contains <strong>sample evidence</strong>, not collected data. Phase 1 ships
+  no collectors; every record is flagged as sample in the store.
+</p>
+{% endif %}
+
+<article class="report">
+  <header class="report-header">
+    <h1>{{ report.header.subject }}</h1>
+    <p class="question">{{ report.header.research_question }}</p>
+    <dl class="header-grid">
+      <div><dt>Market</dt><dd>{{ report.header.geography }}</dd></div>
+      <div><dt>Window</dt><dd>{{ report.header.window_label }}</dd></div>
+      <div><dt>Period covered</dt><dd>{{ report.header.period_label }}</dd></div>
+      <div><dt>Cadence</dt><dd>{{ report.header.cadence }}</dd></div>
+      <div><dt>Generated</dt><dd>{{ report.header.generated_at.strftime('%Y-%m-%d %H:%M') }}</dd></div>
+      <div>
+        <dt>Latest observation</dt>
+        <dd>
+          {% if report.latest_observation %}{{ report.latest_observation.isoformat() }}
+          {% else %}none{% endif %}
+        </dd>
+      </div>
+      <div>
+        <dt>Sources included</dt>
+        <dd>
+          {% if report.header.sources_included %}
+            {% for s in report.header.sources_included %}{{ s.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+          {% else %}none{% endif %}
+        </dd>
+      </div>
+      <div>
+        <dt>Sources missing</dt>
+        <dd>
+          {% if report.header.sources_missing %}
+            {% for s in report.header.sources_missing %}{{ s.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+          {% else %}none{% endif %}
+        </dd>
+      </div>
+    </dl>
+    <p class="report-limitation">{{ report.header.limitation }}</p>
+  </header>
+
+  {% for section in report.sections %}
+  <section class="report-section" id="{{ section.section_id }}">
+    <h2>{{ section.title }}</h2>
+
+    {% if section.is_gated %}
+      <div class="gate">
+        <p class="gate-head">Insufficient evidence</p>
+        <p>{{ section.gate_message }}</p>
+      </div>
+    {% else %}
+      {% if section.chart_svg %}
+      <div class="chart-wrap">{{ section.chart_svg|safe }}</div>
+      {% endif %}
+
+      {% if section.findings %}
+      <ul class="findings">
+        {% for finding in section.findings %}{{ finding_block(finding) }}{% endfor %}
+      </ul>
+      {% else %}
+      <p class="muted">No findings for this window.</p>
+      {% endif %}
+
+      {% if section.note %}
+      <p class="section-note">{{ section.note }}</p>
+      {% endif %}
+    {% endif %}
+  </section>
+  {% endfor %}
+
+  <section class="report-section" id="evidence">
+    <h2>Evidence and confidence</h2>
+    {% if report.all_evidence %}
+    <div class="table-scroll">
+      <table class="evidence">
+        <thead>
+          <tr>
+            <th>Record</th><th>Type</th><th>Source</th><th>Access</th>
+            <th>Period</th><th>Value</th><th>Retrieved</th><th>Limitation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in report.all_evidence %}
+          <tr>
+            <td><code>{{ record.record_id }}</code>
+              {% if record.is_sample %}<span class="pill pill-sample">sample</span>{% endif %}
+            </td>
+            <td>{{ record_type_tag(record.record_type) }}</td>
+            <td>{{ record.publisher }}<br><span class="muted">{{ record.query_or_series_id }}</span></td>
+            <td><code>{{ record.access_method.value }}</code></td>
+            <td>{{ record.period_label }}</td>
+            <td class="numeric">{{ record.display_value }}</td>
+            <td>{{ record.retrieved_at.strftime('%Y-%m-%d') }}</td>
+            <td class="limitation-cell">{{ record.limitation }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="section-note">
+      Every value carries the period it covers and the date it was retrieved. A source that
+      updates less often than this report shows its latest observation date, not the report date.
+    </p>
+    {% else %}
+    <p class="muted">No evidence records cover this window.</p>
+    {% endif %}
+  </section>
+</article>
+
+<p class="back"><a href="/">Generate another report</a></p>
+{% endblock %}

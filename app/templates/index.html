@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Research workspace{% endblock %}
+{% block content %}
+<section class="panel">
+  <h1>Generate a report</h1>
+  <p class="lede">
+    Pick an industry and a lookback window. The report draws only on connected sources,
+    and says so wherever a source is missing.
+  </p>
+
+  <form method="get" action="/report" class="selector">
+    <fieldset>
+      <legend>Industry</legend>
+      {% for subject in subjects %}
+      <label class="choice">
+        <input type="radio" name="subject" value="{{ subject }}"
+               {% if loop.first %}checked{% endif %}>
+        <span>{{ subject }}</span>
+      </label>
+      {% endfor %}
+    </fieldset>
+
+    <fieldset>
+      <legend>Lookback window</legend>
+      {% for key, (label, days) in windows.items() %}
+      <label class="choice">
+        <input type="radio" name="window" value="{{ key }}"
+               {% if key == '1m' %}checked{% endif %}>
+        <span>{{ label }}<em>{{ days }} days</em></span>
+      </label>
+      {% endfor %}
+    </fieldset>
+
+    <fieldset class="wide">
+      <legend>Research question</legend>
+      <input type="text" name="question" class="text-input"
+             placeholder="Leave blank to use the default question">
+    </fieldset>
+
+    <button type="submit">Generate report</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Sources</h2>
+  <table class="sources">
+    <thead>
+      <tr><th>Source</th><th>Provides</th><th>Access</th><th>State</th></tr>
+    </thead>
+    <tbody>
+      {% for source in all_sources %}
+      <tr>
+        <td><strong>{{ source.name }}</strong><br><span class="muted">{{ source.publisher }}</span></td>
+        <td>{{ source.provides }}</td>
+        <td><code>{{ source.access_method.value }}</code></td>
+        <td>
+          {% if source.connected %}
+            <span class="pill pill-on">connected</span>
+          {% else %}
+            <span class="pill pill-off">not connected</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if unconnected %}
+  <p class="note">
+    Report sections that depend on an unconnected source render as
+    <strong>insufficient evidence</strong> naming what is missing. They are never omitted,
+    and never filled from a source that does not support them.
+  </p>
+  {% endif %}
+</section>
+
+{% if store_empty %}
+<section class="panel warn">
+  <h2>The evidence store is empty</h2>
+  <p>Load the Phase 1 sample evidence:</p>
+  <pre><code>.venv/bin/python -m app.seed</code></pre>
+</section>
+{% endif %}
+{% endblock %}

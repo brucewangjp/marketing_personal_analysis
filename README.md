@@ -22,9 +22,20 @@ written.
 
 ## Status
 
-Specification stage. No application code yet. The directories `apps/`, `services/`,
-`packages/`, `infra/`, `scripts/`, `tests/`, and `data/` are placeholders for the
-implementation described in the brief above.
+Phase 1 implemented: the report shell, the evidence store, the confidence rubric, and the
+gating rule, running against clearly labeled sample evidence. No collectors yet — Phase 2
+replaces the sample module with a FRED collector without changing anything downstream.
+
+```
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m app.seed        # load sample evidence into ./data/evidence.db
+.venv/bin/uvicorn app.main:app      # http://127.0.0.1:8000
+.venv/bin/python -m pytest
+```
+
+See [`docs/06_Development/01_Phase1_Technical_Design.md`](docs/06_Development/01_Phase1_Technical_Design.md)
+for the stack choice, module map, and known limitations.
 
 ## Credentials
 
