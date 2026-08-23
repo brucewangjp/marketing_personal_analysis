@@ -73,7 +73,7 @@ Use an approved platform or licensed provider to identify group-level discussion
 
 ## 5. Data flow
 
-1. User selects a US company, industry, or topic and writes a research question.
+1. User selects the US technology or healthcare industry and writes a research question.
 2. The system retrieves selected FRED series and Google Trends interest signals.
 3. The system retrieves approved, published sentiment indicators and approved public-discussion signals.
 4. The system stores normalized evidence with source and time metadata.

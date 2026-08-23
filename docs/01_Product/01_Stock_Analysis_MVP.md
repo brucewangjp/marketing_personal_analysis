@@ -6,7 +6,7 @@
 
 ## 1. Goal
 
-Help a research user understand group-level attention and sentiment around a company or industry by combining macroeconomic context with public, aggregated interest signals.
+Help a research user understand group-level attention and sentiment around a US industry by combining macroeconomic context with public, aggregated interest signals.
 
 The MVP supports research; it does not provide personalized investment advice, diagnose individuals, or execute trades.
 
@@ -14,23 +14,23 @@ The MVP supports research; it does not provide personalized investment advice, d
 
 An investor, seller, or researcher who wants to answer questions such as:
 
-- Is attention toward this company or industry growing or declining?
+- Is attention toward this industry growing or declining?
 - Is the broader consumer environment optimistic, cautious, or under pressure?
 - What can and cannot be concluded from the available aggregate signals?
 - What should be monitored next?
 
 ## 2.1 Initial research scope
 
-The first release focuses on US-listed companies connected to:
+The first release focuses on two US industries:
 
 - Technology.
 - Healthcare.
 
-The product will be designed for company-level research within these sectors before expanding to other industries. The first demonstration cases are Microsoft, NVIDIA, Eli Lilly, and UnitedHealth Group; they are workflow examples, not investment recommendations.
+The product will be designed for industry-level research within these sectors before expanding to other industries. Company-level research is a later expansion.
 
 ## 3. MVP workflow
 
-1. User enters a company, industry, or topic and a research question.
+1. User selects technology or healthcare and writes a research question.
 2. User selects a market and time period.
 3. The system gathers approved macroeconomic and aggregate-attention signals relevant to the subject.
 4. The system creates an evidence table and an AI-generated research brief.
@@ -67,7 +67,7 @@ The MVP does not require the user to distribute a questionnaire. Company filings
 
 ## 6. Acceptance criteria
 
-- A user can create and save a company, industry, or topic research project.
+- A user can create and save an industry research project.
 - The research brief identifies its market and time period.
 - Important claims have traceable evidence and source limitations.
 - The report separates observed signals from AI interpretation.
