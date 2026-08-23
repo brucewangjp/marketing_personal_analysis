@@ -1,6 +1,6 @@
 # US Product Opportunity Report Template
 
-- Version: v0.2
+- Version: v0.3
 - Status: Draft
 - Updated: 2026-08-23
 
@@ -43,25 +43,39 @@ Answer these questions in a short, source-backed overview:
 - What product direction is worth investigating next?
 - What is the most important risk or evidence gap?
 
-## 4. Current sales reality — **Gated: marketplace source**
+## 4. Current sales reality
 
-### User-facing view
+This section has two levels, presented separately and never merged.
 
-- Current products or categories with reliable sales or marketplace evidence.
-- Signal type: direct sales evidence, marketplace ranking, review volume, search attention, or other.
-- Time period and market coverage.
+### Category level — measured
+
+- Measured US dollar sales for the category, its direction, and e-commerce share, from
+  official statistics.
+- Consumer spending on the category, and how it splits by income, age, and region.
+- The observation period and the agency's definition of the category.
+
+### Product level — proxies. **Gated: marketplace source**
+
+- Products with visible marketplace traction.
+- Signal type for each: marketplace ranking, review volume, listing density, price band.
+- Retrieval timestamp for every value, since these change continuously.
 - Apparent competitive density and signs of saturation.
 
 ### Required limitation
 
-Every value in this section is a **proxy**. Label which one it is — platform ranking,
-review volume, listing density, or price spread — and state the period it covers and the
-marketplace it came from. The report never presents any of them as national sales,
-revenue, or market share, because no source in the first version measures those.
+The two levels carry opposite limitations, and the report states both.
 
-When no marketplace source is available for the category, this section renders as
-insufficient evidence. Search interest is attention, not sales, and must not be
-substituted here.
+- **Category statistics are measured but lagging.** They say the category is real and
+  where it is heading; monthly figures lag weeks and annual merchandise-line detail lags
+  about a year. They say nothing about any individual product.
+- **Product values are timely but are proxies.** Label which proxy each one is, and never
+  present rank, review count, or listing density as sales, revenue, or market share. No
+  source in this version measures product-level sales.
+
+A category statistic must never be presented as evidence about a specific product, and a
+product proxy must never be summed into a category total. When no marketplace source is
+available, the product-level table renders as insufficient evidence while the category
+level still renders. Search interest is attention, and is never substituted for either.
 
 ## 5. Emerging customer opportunity
 
@@ -80,7 +94,9 @@ An emerging topic is a lead for further research, not proof that a product will 
 
 For each important opportunity, show:
 
-- Likely target customer group, only where evidence supports it.
+- Likely target customer group. The Consumer Expenditure Survey gives measured spending by
+  income, age, region, and household size for the category — prefer it over inference from
+  discussion, and say which one a statement rests on.
 - Desired outcomes and purchase motivations.
 - Frustrations, objections, and reasons not to buy.
 - Price, quality, convenience, trust, or differentiation themes where visible.
@@ -92,13 +108,14 @@ Classify the opportunity using evidence rather than intuition:
 
 | State | Meaning | Needs |
 | --- | --- | --- |
-| Established demand | Strong evidence that the category sells, with known competition. | Marketplace source |
+| Established demand | Measured category sales confirm real demand. | Official statistics |
 | Crowded | Demand exists, but many similar offers or repeated customer complaints indicate weak differentiation. | Marketplace source |
 | Emerging | Attention or discussion is rising, but sales validation is still limited. | Search or discussion signals |
 | Uncertain | Too little or conflicting evidence to classify. | — |
 
-Without a marketplace source, only **Emerging** and **Uncertain** are assignable. The
-report must not infer that a category is crowded from discussion volume alone.
+Without a marketplace source, **Established demand** remains assignable from category
+statistics; **Crowded** does not, because it needs listing density. The report must not
+infer that a category is crowded from discussion volume alone.
 
 ## 8. Product and sales recommendation
 
@@ -118,6 +135,8 @@ evidence schema and confidence rubric (shared foundation, sections 5 and 6).
 
 Category-specific notes:
 
+- A claim about category demand supported by official statistics can reach **High**, since
+  the agency's methodology is published.
 - A finding supported only by marketplace proxies cannot exceed **Low** confidence for any
   claim about demand, because rank and review count measure neither.
 - A rising search term without corroboration is a lead, reported at **Low** confidence.
@@ -150,3 +169,4 @@ sequencing.
 | --- | --- | --- |
 | v0.1 | 2026-08-23 | Initial report template for the US product opportunity MVP. |
 | v0.2 | 2026-08-23 | Referenced the shared contract instead of restating the header and confidence levels; marked section 4 gated and section 7 partly gated on the marketplace source; stated that marketplace values are proxies. |
+| v0.3 | 2026-08-23 | Split section 4 into a measured category level and a proxy product level, after confirming free official category sales data exists; un-gated the category level and the Established demand state; pointed customer insight at the Consumer Expenditure Survey. |

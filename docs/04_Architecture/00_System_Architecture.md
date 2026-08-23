@@ -1,6 +1,6 @@
 # System Architecture
 
-- Version: v0.2
+- Version: v0.3
 - Status: Draft
 - Updated: 2026-08-23
 
@@ -27,7 +27,7 @@ flowchart LR
     U["Project owner: selects an industry or a product category"] --> Q["Research question and time range"]
 
     Q --> C["Data collection: tiered access per source"]
-    C --> F["FRED: macro and demand context (API)"]
+    C --> F["Official statistics: Census, BEA, BLS, FRED (API)"]
     C --> G["Google Trends: search attention (export / web / manual)"]
     C --> D["Public discussion: themes (API / web)"]
     C --> K["Marketplace: rank, reviews, listings (API / web) — MVP2"]
@@ -71,7 +71,7 @@ which tier it uses and records that tier on every stored record.
 
 | Source | Access tier | MVP |
 | --- | --- | --- |
-| FRED and permitted published sentiment indicators | 1 — free API | Both |
+| FRED, Census, BEA, BLS — macro context, and measured category sales for MVP2 | 1 — free API | Both |
 | Google Trends | 2 or 3, falling back to 4 | Both |
 | Public discussion | 1 where a free API exists, otherwise 3 | Both |
 | Marketplace rank, reviews, listings | 1 where a free API exists, otherwise 3 | MVP2 |
@@ -130,8 +130,9 @@ Data governance applies to every module:
 ## 5. Development order
 
 1. Implement the shared evidence schema and the collector adapter contract.
-2. Build FRED collection (Tier 1) and Google Trends collection (Tier 2/3 with a Tier 4
-   manual-import path, since Trends has no stable public API).
+2. Build the official-statistics collector (Tier 1: FRED first, then Census, BEA, and BLS
+   for MVP2) and Google Trends collection (Tier 2/3 with a Tier 4 manual-import path,
+   since Trends has no stable public API).
 3. Build evidence storage and research-project management.
 4. Build trend and aggregate-sentiment analysis, including the confidence rubric.
 5. Build the industry report, with gated sections rendering as insufficient evidence.
@@ -146,3 +147,4 @@ Data governance applies to every module:
 | --- | --- | --- |
 | v0.1 | 2026-08-23 | Initial system architecture for the industry-sentiment MVP. |
 | v0.2 | 2026-08-23 | Described the shared core serving both MVPs; replaced the approved-source model with the tiered access policy; added the marketplace collector and the Google Trends fallback path; adopted the shared evidence schema and confidence rubric. |
+| v0.3 | 2026-08-23 | Generalized the FRED collector into an official-statistics collector covering Census, BEA, and BLS, which supply MVP2's measured category sales. |

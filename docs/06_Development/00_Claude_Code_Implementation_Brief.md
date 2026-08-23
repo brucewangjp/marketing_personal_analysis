@@ -1,6 +1,6 @@
 # Claude Code Implementation Brief
 
-- Version: v0.2
+- Version: v0.3
 - Status: Ready for implementation planning
 - Updated: 2026-08-23
 
@@ -159,6 +159,9 @@ The interface must distinguish observed evidence, AI interpretation, and uncerta
 
 ### Phase 5 — Second MVP
 
+- Add the official-statistics collector for Census, BEA, and BLS, which supply MVP2's
+  measured category sales and spending-by-demographic evidence. This extends the FRED
+  collector built in Phase 2 rather than replacing it.
 - Add the marketplace collector, following the tier order in the MVP2 source plan.
 - Add the product opportunity report template.
 - Reuse collection, evidence storage, analysis, and the report shell without forking them.
@@ -202,3 +205,4 @@ When the first working version is complete, provide:
 | --- | --- | --- |
 | v0.1 | 2026-08-23 | Initial Claude Code implementation brief for the industry-sentiment MVP. |
 | v0.2 | 2026-08-23 | Added the two-MVP build order and MVP2's documents; adopted the tiered access policy in place of the blanket approved-source rule; added universal collector rules and Phase 5. |
+| v0.3 | 2026-08-23 | Added the official-statistics collector to Phase 5, following confirmation that free measured category sales data is available. |

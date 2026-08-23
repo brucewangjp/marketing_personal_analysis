@@ -1,6 +1,6 @@
 # US Product Opportunity MVP
 
-- Version: v0.4
+- Version: v0.5
 - Status: Approved for MVP
 - Updated: 2026-08-23
 
@@ -37,7 +37,7 @@ The MVP is not an inventory-purchasing, wholesale, or investment-selection tool.
 
 ## 4. Required output
 
-- **Current sales reality:** products or categories with observed sales or marketplace momentum.
+- **Current sales reality:** measured category sales and spending, plus products with observed marketplace momentum, kept clearly separate.
 - **Emerging opportunity signals:** unmet needs, pain points, growing topics, and new product ideas visible in approved online signals.
 - Signal type and source quality for each result.
 - Target customer profile and stated preferences.
@@ -71,8 +71,9 @@ The MVP is not an inventory-purchasing, wholesale, or investment-selection tool.
   Selection criteria are defined in `docs/03_Data/02_Product_Opportunity_MVP_Data_Sources.md` section 9.
 - Which marketplace publishes a usable free API for the chosen categories?
 
-Resolved: the first version reports demand signals and marketplace proxies, not measured
-sales — see `docs/03_Data/02_Product_Opportunity_MVP_Data_Sources.md` section 1. The
+Resolved: the first version reports measured sales at the category level, from free
+official statistics, and proxies at the product level, where no free measured source
+exists — see `docs/03_Data/02_Product_Opportunity_MVP_Data_Sources.md` section 1. The
 minimum evidence for the opportunity list is one listed source covering the stated
 period and geography, which is the Medium level of the shared confidence rubric; anything
 below that is listed as a lead, not an opportunity.
@@ -88,7 +89,7 @@ foundation disagree, the shared foundation wins.
 
 | View | Main question | Evidence needed | Key risk |
 | --- | --- | --- | --- |
-| Current sales reality | What is selling well now? | Marketplace proxies — rank, review volume, listing density — always labeled as proxies, never as sales. | Entering a crowded category too late. |
+| Current sales reality | What is selling well now? | Measured category sales from official statistics, plus product-level marketplace proxies labeled as proxies. | Entering a crowded category too late. |
 | Emerging opportunity | What new need or idea is gaining attention but may not yet be crowded? | Search, review, and public-discussion signals. | Mistaking discussion or novelty for real demand. |
 
 The product opportunity report should compare both views before recommending what the user should investigate next.
@@ -108,3 +109,4 @@ The product opportunity report should compare both views before recommending wha
 | v0.2 | 2026-08-23 | Added two-view model: current sales reality and emerging product opportunities. |
 | v0.3 | 2026-08-23 | Confirmed US focus and product-development/product-sales use case. |
 | v0.4 | 2026-08-23 | Adopted the shared contract and the free-first source policy; resolved the sales-data and minimum-evidence questions; corrected the version header, which had stayed at v0.1 through three revisions. |
+| v0.5 | 2026-08-23 | Recorded that measured category-level sales data is available free from official statistics; the no-measured-sales limit applies at the product level only. |

@@ -1,6 +1,6 @@
 # Product Opportunity MVP Data Source Plan
 
-- Version: v0.2
+- Version: v0.3
 - Status: Approved for MVP
 - Updated: 2026-08-23
 
@@ -14,54 +14,70 @@ to answer the research question.
 
 Four source types:
 
-1. **FRED** — US consumption and retail demand context. Tier 1, free API.
+1. **Official US statistics** — measured category sales and consumer spending from the
+   Census Bureau, BEA, BLS, and FRED. Tier 1, free APIs.
 2. **Google Trends** — anonymized, aggregated search interest for category and product
    terms. Tier 2 or 3; no stable official public API.
-3. **Marketplace signals** — what is actually listed, ranked, and reviewed. Tier 1 where
-   a marketplace publishes a free API, Tier 3 where it does not.
+3. **Marketplace signals** — what is listed, ranked, and reviewed at the product level.
+   Tier 1 where a marketplace publishes a free API, Tier 3 where it does not.
 4. **Public-discussion data** — group-level pain points, unmet needs, and customer
    language. Tier 1 where the platform publishes a free API.
 
-### What the first version does and does not measure
+### What the first version measures, and at which level
 
 This answers the open question "Does the first version need actual sales data, or is it a
 demand-signal discovery tool?" from `docs/01_Product/02_US_Product_Opportunity_MVP.md`.
 
-The first version is a **demand-signal and marketplace-proxy discovery tool**. It reports
-what is listed, ranked, searched, reviewed, and discussed. It does not report unit sales,
-revenue, or market size, because:
+The answer differs by level, and the report must never blur the two:
 
-- No major US marketplace publishes unit sales volume through any interface, free or paid.
-  Ranking, review count, and listing count are **proxies** (shared terminology, section 4)
-  and are labeled as such everywhere they appear.
-- Tools that do sell sales figures publish modelled *estimates*, and their terms generally
-  restrict re-displaying that data inside another product.
+| Level | Measured sales available? | Source | What the report may state |
+| --- | --- | --- | --- |
+| **Category** — a retail line, product type, or spending category | **Yes.** Dollar sales and consumer spending, measured by federal statistical agencies | Section 2 | Actual sales levels, direction, and share, with the survey's period and definition |
+| **Product** — a specific item or listing | **No.** No free or paid source publishes unit sales for an individual product | Section 5 | Rank, review volume, listing density, price band — all labeled as **proxies** |
 
-This is a limit on what the data can support, not a limit on budget or on effort. Every
-free route to marketplace evidence is in scope and listed in section 5.
+Category-level statistics lag: monthly retail sales lag weeks, annual merchandise-line
+detail lags about a year. They establish whether a category is real and growing. They
+never tell you what is selling this week. Marketplace proxies are timely but measure
+nothing directly. The report's value comes from carrying both with their limits attached,
+not from picking one.
 
-## 2. FRED
+No source at either level supports a revenue or market-size estimate for a specific
+product. The report does not produce one.
+
+## 2. Official US statistics
 
 ### Purpose
 
-Provide US demand and spending context for a product category, so that a category's
-attention signal can be read against the broader consumer environment.
+Establish whether a category has real, measured demand, how it is trending, and who spends
+in it — the evidence base the marketplace proxies in section 5 cannot provide.
 
-### Initial use cases
+### Sources, in priority order
 
-- Retail and e-commerce sales indicators for overall demand direction.
-- Personal consumption expenditure indicators for category-adjacent spending context.
-- Price indices where a category's affordability is part of the research question.
-- The University of Michigan Consumer Sentiment series as aggregate consumer context,
-  where licensing and attribution requirements are met.
+| Source | Gives | Frequency and lag | Access |
+| --- | --- | --- | --- |
+| **Census Monthly Retail Trade Survey (MARTS/MRTS)** | Dollar sales by NAICS retail line | Monthly, ~2–6 week lag | Free Census API; the same series are also carried in FRED |
+| **Census Quarterly E-commerce Report** | E-commerce sales and share of retail | Quarterly | Free Census API / FRED |
+| **Census Annual Retail Trade Survey (ARTS)** | Annual sales including, for selected industries, **sales by merchandise line** — the closest official data to product-category sales | Annual, ~1 year lag | Free Census API |
+| **BEA NIPA underlying detail** (for example table `U20305`) | Personal consumption expenditure by detailed product type | Monthly/quarterly/annual | Free BEA API key |
+| **BLS Consumer Expenditure Survey** | Spending by category **cross-tabulated by income, age, region, household size** | Annual | Free published tables and public-use microdata |
+| **FRED** | Convenient access to many of the above, plus interest-rate, inflation, employment, and consumer-sentiment context | Varies | Free API key |
+
+BLS Consumer Expenditure Survey deserves specific attention: it is the only free source in
+this plan that says *who* spends on a category rather than only *how much* is spent. It is
+the evidence base for the report's Customer insight section, and it is measured survey
+data rather than inference from discussion.
 
 ### Required safeguards
 
-- Use a registered API key and keep it outside the repository.
-- Store the series identifier, observation period, release date when available, and
-  retrieval date.
-- Label each indicator with its geography, frequency, and attribution requirements.
-- Do not present a macroeconomic indicator as evidence that a specific product sells.
+- Use registered API keys and keep them outside the repository.
+- Store the agency, series or table identifier, observation period, release date, and
+  retrieval date on every value.
+- Record the **definition** the agency uses. A NAICS retail line is a type of store, not a
+  type of product; a merchandise line is closer to a product category. Reporting one as
+  the other is a defect.
+- Show the lag. A category statistic is never current to the report date, and the report
+  states its latest observation date rather than implying otherwise.
+- Do not present a category-level statistic as evidence about any specific product.
 
 ## 3. Google Trends
 
@@ -158,21 +174,43 @@ limitation. Specifically:
 - Collect no seller or reviewer identity.
 - Record the marketplace, category path, and geography with every value.
 
-### Effect while a category has no working marketplace source
+### Product-level sold data: what exists and what does not
 
-Per the shared gating rule, if no tier yields marketplace data for the category being
-researched, these report elements render as **Insufficient evidence**, naming what is
-missing:
+Checked, and recorded here so the question is not reopened every few months:
 
-- Current sales reality (report template section 4).
-- Competition and saturation states **Established demand** and **Crowded**
-  (report template section 7). **Emerging** and **Uncertain** remain assignable from
-  search and discussion signals alone.
+- **eBay Marketplace Insights API** returns genuinely sold items for the last 90 days. It
+  is a Limited Release API and is closed to new applicants. Treat as unavailable.
+- **eBay Terapeak / Product Research** is free with a seller account and covers roughly
+  three years of sold history. It is the owner's own account on a tool they are entitled to
+  use, so it is a legitimate **Tier 4 manual import**, not a collection target.
+- **Amazon Product Advertising API** requires an Associates account in good standing,
+  which requires qualifying sales first. Unavailable until that exists.
+- **Amazon Product Opportunity Explorer** and **Brand Analytics** are free but require a
+  Seller Central or Brand Registry account. Same treatment as Terapeak: Tier 4 if the owner
+  has an account, otherwise unavailable.
+- **Paid estimators** (Keepa, Jungle Scout, Helium 10 and similar) publish modelled
+  estimates, not measured sales, and their terms generally restrict re-displaying that data
+  inside another product.
+
+The conclusion stands: no free route yields measured unit sales for an individual product.
+Category-level sales come from section 2 instead.
+
+### Effect when a category has no working marketplace source
+
+Per the shared gating rule, if no tier yields marketplace data, the **product-level** part
+of the report renders as insufficient evidence, naming what is missing. The
+**category-level** part is unaffected — it comes from section 2 and is always available.
+
+- Current sales reality (report template section 4): category statistics still render;
+  the product-level table renders as insufficient evidence.
+- Competition and saturation (report template section 7): **Established demand** can still
+  be assigned from category statistics. **Crowded** needs marketplace listing density and
+  is otherwise unassignable.
 
 ## 6. Data flow
 
 1. User selects a US category or enters a product idea, and a time window.
-2. The system retrieves FRED context series and Google Trends interest signals.
+2. The system retrieves official category statistics and Google Trends interest signals.
 3. The system retrieves public-discussion signals and marketplace signals at the best
    available tier for the category.
 4. The system stores normalized evidence conforming to the shared evidence schema.
@@ -182,7 +220,9 @@ missing:
 
 ## 7. Explicit exclusions for the first MVP
 
-- Sales volume, revenue, or market-size figures presented as measured fact.
+- Product-level sales volume, revenue, or market-size figures presented as measured fact.
+  Category-level figures from official statistics are permitted, with their period and
+  definition attached.
 - Any content behind a login, paywall, or access control.
 - Individual-level customer, seller, or reviewer profiles.
 - Stored full-text copies of reviews or discussion threads.
@@ -194,7 +234,10 @@ missing:
 
 - Select the first three to five US categories for demonstration reports, using the
   criteria in section 9.
-- Select the first set of FRED series for consumption and retail context.
+- Map each demonstration category to its NAICS retail line, ARTS merchandise line, BEA
+  product type, and BLS expenditure category. This mapping is the spine of the report and
+  should be built before any collector.
+- Register free API keys for Census, BEA, and FRED.
 - Define the initial Google Trends term list and comparison rules per category.
 - Register free developer accounts for the Tier 1 marketplace candidates and record
   their actual rate limits.
@@ -216,3 +259,4 @@ A category qualifies for the first demonstration reports when it has:
 | --- | --- | --- |
 | v0.1 | 2026-08-23 | Initial data source plan for the Product Opportunity MVP. Resolved the sales-data question: the first version reports demand signals and marketplace proxies, not measured sales. |
 | v0.2 | 2026-08-23 | Adopted the free-first, tiered access policy: marketplace signals are collected through free APIs where available and public pages where not, instead of being deferred. |
+| v0.3 | 2026-08-23 | Corrected a factual error in v0.1–v0.2, which stated that no free measured sales data exists. Free official category-level sales and spending data does exist — Census MARTS/MRTS, ARTS merchandise lines, the quarterly e-commerce report, BEA product-detail PCE, and the BLS Consumer Expenditure Survey — and is now the first source type. The no-measured-sales limit applies at the product level only. |
