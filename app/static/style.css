@@ -20,12 +20,16 @@
   --chart-area: rgba(47, 93, 80, 0.12);
   --chart-grid: #e2e0da;
   --radius: 8px;
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --font: "Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: Newsreader, Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
+/* The viewer has three theme states: an explicit choice stamps data-theme on the
+   root, and the default "system" setting stamps nothing. Define the dark tokens
+   for both paths so neither renders one theme's text on the other's ground. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #16171a;
     --surface: #1e2024;
     --border: #33363c;
@@ -47,6 +51,27 @@
   }
 }
 
+:root[data-theme="dark"] {
+  --bg: #16171a;
+  --surface: #1e2024;
+  --border: #33363c;
+  --ink: #eceae6;
+  --ink-soft: #b3afa8;
+  --ink-faint: #837e77;
+  --accent: #7fb5a1;
+  --accent-soft: #22302c;
+  --warn-bg: #2a2618;
+  --warn-border: #5c5028;
+  --gate-bg: #232529;
+  --conf-high: #7fc4a3;
+  --conf-medium: #d6ab5c;
+  --conf-low: #d79a72;
+  --conf-none: #9a948c;
+  --chart-line: #7fb5a1;
+  --chart-area: rgba(127, 181, 161, 0.14);
+  --chart-grid: #33363c;
+}
+
 * { box-sizing: border-box; }
 
 body {
@@ -65,11 +90,17 @@ main { max-width: 900px; margin: 0 auto; padding: 24px 20px 64px; }
   padding: 14px 20px; border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
-.wordmark { font-weight: 650; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.wordmark { font-family: var(--serif); font-size: 17px; font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
 .masthead-note { color: var(--ink-faint); font-size: 13px; }
 
-h1 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 6px; }
-h2 { font-size: 18px; letter-spacing: -0.01em; margin: 0 0 12px; }
+h1 {
+  font-family: var(--serif); font-size: 30px; font-weight: 600;
+  letter-spacing: -0.01em; margin: 0 0 6px; text-wrap: balance;
+}
+h2 {
+  font-family: var(--serif); font-size: 20px; font-weight: 600;
+  letter-spacing: -0.005em; margin: 0 0 12px; text-wrap: balance;
+}
 .lede { color: var(--ink-soft); margin-top: 0; }
 .muted { color: var(--ink-faint); }
 
@@ -131,7 +162,7 @@ button:hover { filter: brightness(1.08); }
   border-radius: var(--radius); overflow: hidden;
 }
 .report-header { padding: 22px 24px; border-bottom: 1px solid var(--border); }
-.question { color: var(--ink-soft); margin: 0 0 16px; font-size: 15px; }
+.question { font-family: var(--serif); color: var(--ink-soft); margin: 0 0 16px; font-size: 16px; }
 .header-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 12px 20px; margin: 0 0 14px;
@@ -152,7 +183,10 @@ button:hover { filter: brightness(1.08); }
 .findings { list-style: none; margin: 0; padding: 0; }
 .finding { padding: 12px 0; border-top: 1px solid var(--border); }
 .finding:first-child { border-top: 0; padding-top: 0; }
-.statement { margin: 0 0 6px; }
+.statement {
+  font-family: var(--serif); font-size: 16.5px; line-height: 1.5;
+  margin: 0 0 6px; max-width: 68ch;
+}
 .finding-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 6px; font-size: 12px; }
 .why, .limitation { margin: 4px 0 0; font-size: 13px; color: var(--ink-soft); }
 .why-label {
@@ -191,6 +225,7 @@ th {
 .evidence { min-width: 860px; }
 .evidence code { font-size: 11px; }
 .numeric { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td, .header-grid dd { font-variant-numeric: tabular-nums; }
 .limitation-cell { max-width: 240px; color: var(--ink-soft); }
 .sources td { vertical-align: middle; }
 
@@ -204,4 +239,13 @@ a { color: var(--accent); }
 .colophon {
   max-width: 900px; margin: 0 auto; padding: 0 20px 40px;
   color: var(--ink-faint); font-size: 12px;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
 }
