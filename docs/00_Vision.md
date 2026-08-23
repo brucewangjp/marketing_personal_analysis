@@ -28,6 +28,17 @@ The platform should help teams:
 
 ## 3. Primary users
 
+### Initial primary user
+
+The first MVP is a personal research workspace for the project owner. It supports two personal decision contexts:
+
+- Investment research.
+- Product development and product-selling research.
+
+The initial version is not designed as a multi-user team product or a public reporting service.
+
+### Future users
+
 | User | Primary need |
 | --- | --- |
 | Brand and marketing leaders | Set positioning, communication strategy, and market priorities. |

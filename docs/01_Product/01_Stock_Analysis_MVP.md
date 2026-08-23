@@ -12,12 +12,14 @@ The MVP supports research; it does not provide personalized investment advice, d
 
 ## 2. Primary user
 
-An investor, seller, or researcher who wants to answer questions such as:
+The initial user is the project owner, using the report for personal investment research and product-development or product-selling decisions. The user wants to answer questions such as:
 
 - Is attention toward this industry growing or declining?
 - Is the broader consumer environment optimistic, cautious, or under pressure?
 - What can and cannot be concluded from the available aggregate signals?
 - What should be monitored next?
+
+The first version is a personal workspace, not a multi-user product or public reporting service.
 
 ## 2.1 Initial research scope
 

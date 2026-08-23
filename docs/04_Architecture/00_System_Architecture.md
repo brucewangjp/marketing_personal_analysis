@@ -6,7 +6,7 @@
 
 ## 1. Purpose
 
-Build an industry-sentiment research system for the US technology and healthcare sectors. The system uses online, existing data to identify group-level attention, attitudes, motivations, concerns, and changes over time.
+Build a personal industry-sentiment research system for the US technology and healthcare sectors. The project owner uses it for investment research and product-development or product-selling decisions. The system uses online, existing data to identify group-level attention, attitudes, motivations, concerns, and changes over time.
 
 The system is not an investment-advice engine and does not determine any individual’s psychological state.
 
@@ -14,7 +14,7 @@ The system is not an investment-advice engine and does not determine any individ
 
 ```mermaid
 flowchart LR
-    U["User: selects US technology or healthcare"] --> Q["Research question and time range"]
+    U["Project owner: selects US technology or healthcare"] --> Q["Research question and time range"]
 
     Q --> C["Data collection"]
     C --> F["FRED: macro and aggregate sentiment"]
