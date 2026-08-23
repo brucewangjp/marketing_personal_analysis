@@ -19,6 +19,15 @@ An investor researching a listed company, brand, or industry who wants to answer
 - What evidence supports a bullish, bearish, or uncertain view?
 - What should I monitor next?
 
+## 2.1 Initial research scope
+
+The first release focuses on US-listed companies connected to:
+
+- Artificial-intelligence infrastructure and software.
+- Semiconductors and semiconductor equipment.
+
+The product will be designed for company-level research within these sectors before expanding to other industries.
+
 ## 3. MVP workflow
 
 1. User enters a company, ticker, or industry and a research question.
