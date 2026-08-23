@@ -22,9 +22,9 @@ written.
 
 ## Status
 
-Phases 1 and 2 implemented: the report shell, the evidence store, the confidence rubric,
-the gating rule, and the collectors that feed them. Analysis that derives findings from
-signals is Phase 3.
+Phases 1 to 3 implemented: the report shell, the evidence store, the confidence rubric,
+the gating rule, the collectors that feed them, and the analysis that turns collected
+signals into findings. Weekly scheduling and the public-discussion source are Phase 4.
 
 ```
 python3 -m venv .venv
@@ -45,8 +45,9 @@ collected at all is never fatal: the run reports it, and the report sections tha
 it say *insufficient evidence* naming what is missing.
 
 See [`docs/06_Development/01_Phase1_Technical_Design.md`](docs/06_Development/01_Phase1_Technical_Design.md)
-and [`docs/06_Development/02_Phase2_Collectors.md`](docs/06_Development/02_Phase2_Collectors.md)
-for the stack choice, the collector contract, and known limitations.
+[`docs/06_Development/02_Phase2_Collectors.md`](docs/06_Development/02_Phase2_Collectors.md),
+and [`docs/06_Development/03_Phase3_Analysis.md`](docs/06_Development/03_Phase3_Analysis.md)
+for the stack choice, the collector contract, the analysis rules, and known limitations.
 
 ## Credentials
 

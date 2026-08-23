@@ -118,5 +118,5 @@ def test_static_css_is_served(client):
 def test_monitoring_items_render_without_a_record_type_tag(client):
     body = client.get("/report", params={"subject": "US technology", "window": "3m"}).text
     monitoring = body.split('id="monitoring"')[1].split("</section>")[0]
-    assert "Search interest for" in monitoring
+    assert "search interest" in monitoring.lower()
     assert "tag-observation" not in monitoring

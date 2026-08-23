@@ -1,10 +1,11 @@
 """End-to-end: the report contains every template section, populated or gated."""
 
-from datetime import date
+from datetime import date, datetime
 
 import pytest
 
 from app.confidence import INSUFFICIENT
+from app.models import RecordType
 from app.reports import industry_sentiment as sentiment
 from app.sample import all_records
 from app.store import EvidenceStore
@@ -81,11 +82,28 @@ def test_tone_is_reported_as_a_gap_rather_than_inferred(seeded):
     assert tone[0].confidence == INSUFFICIENT
 
 
-def test_attention_section_has_a_chart_and_a_finding(seeded):
+def test_attention_section_has_a_chart_and_findings(seeded):
     section = sentiment.build(seeded, _request()).section("attention")
     assert section.chart_svg.startswith("<svg")
-    assert len(section.findings) == 1
+    assert len(section.findings) == 2  # direction, then range and variation
     assert "rising" in section.findings[0].statement
+    assert "variation" in section.findings[1].statement
+
+
+def test_a_direction_finding_states_why_it_cleared_the_noise(seeded):
+    finding = sentiment.build(seeded, _request()).section("attention").findings[0]
+    assert "clearing both bars" in finding.statement
+    assert finding.record_type is RecordType.DERIVED_METRIC
+
+
+def test_a_direction_finding_rests_on_a_traceable_derived_metric(seeded):
+    """The stated change must name the observations it was computed from."""
+    finding = sentiment.build(seeded, _request()).section("attention").findings[0]
+    metric = finding.evidence[0]
+    assert metric.record_type is RecordType.DERIVED_METRIC
+    assert metric.derived_from
+    observed_ids = {r.record_id for r in finding.evidence[1:]}
+    assert set(metric.derived_from) == observed_ids
 
 
 def test_every_finding_with_evidence_carries_a_confidence_level(seeded):
@@ -165,3 +183,64 @@ def test_monitoring_list_names_each_data_gap(seeded):
     gaps = [f.statement for f in section.findings if f.statement.startswith("Data gap")]
     assert len(gaps) == 2
     assert all("Public discussion" in g for g in gaps)
+
+
+def test_monitoring_list_is_generated_from_what_actually_moved(seeded):
+    """Not a fixed checklist: the items name this window's direction and magnitude."""
+    statements = [
+        f.statement for f in sentiment.build(seeded, _request()).section("monitoring").findings
+    ]
+    assert any("still rising" in s for s in statements)
+    assert any("reverses" in s for s in statements)
+
+
+def test_monitoring_list_differs_between_a_rising_and_a_falling_subject(seeded):
+    tech = [f.statement for f in sentiment.build(seeded, _request("US technology")).section("monitoring").findings]
+    health = [f.statement for f in sentiment.build(seeded, _request("US healthcare")).section("monitoring").findings]
+    assert any("still rising" in s for s in tech)
+    assert not any("still rising" in s for s in health)
+
+
+def test_change_section_reports_only_supported_change(seeded):
+    section = sentiment.build(seeded, _request()).section("change")
+    assert "This is the change the evidence supports" in section.findings[0].statement
+
+
+def test_a_flat_series_yields_no_direction_claim():
+    """A move inside the series' own noise must not be reported as a trend."""
+    from datetime import timedelta
+
+    from app.models import AccessMethod, EvidenceRecord, SourceType
+
+    noisy = [50, 58, 44, 61, 47, 55, 49, 60, 45, 57, 52, 48, 53]
+    start = date(2026, 5, 24)
+    with EvidenceStore(":memory:") as store:
+        for i, value in enumerate(noisy):
+            week = start + timedelta(days=7 * i)
+            store.add(
+                EvidenceRecord(
+                    record_id=f"tr.{i}",
+                    record_type=RecordType.OBSERVATION,
+                    source_id="google_trends",
+                    source_type=SourceType.SEARCH_INTEREST,
+                    publisher="Google",
+                    access_method=AccessMethod.WEB_COLLECTION,
+                    subject="US technology",
+                    query_or_series_id="q",
+                    geography="United States",
+                    period_start=week,
+                    period_end=week + timedelta(days=6),
+                    retrieved_at=datetime(2026, 8, 23),
+                    rights_note="r",
+                    retention_rule="k",
+                    limitation="l",
+                    value=float(value),
+                    unit="relative interest, 0-100",
+                )
+            )
+        report = sentiment.build(store, _request())
+
+    statement = report.section("attention").findings[0].statement
+    assert "rising" not in statement and "falling" not in statement
+    assert "not a direction" in statement
+    assert "No change in attention is supported" in report.section("change").findings[0].statement
