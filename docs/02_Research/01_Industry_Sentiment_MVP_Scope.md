@@ -1,12 +1,12 @@
-# Stock MVP Industry Scope: Technology and Healthcare
+# Industry Sentiment MVP Scope: Technology and Healthcare
 
-- Version: v0.1
+- Version: v0.4
 - Status: Approved for MVP
 - Updated: 2026-08-23
 
 ## 1. Decision
 
-The first Stock Analysis MVP focuses on two US industries:
+The first Industry Sentiment MVP focuses on two US industries:
 
 1. Technology.
 2. Healthcare.
@@ -46,6 +46,12 @@ The report should be able to incorporate, where relevant:
 
 The system must identify the selected series, frequency, and observation period in the final report.
 
+## 4.1 Market and language
+
+The first release covers the **United States** only, in **English**. Other markets and
+languages are a later expansion and require their own source review, because source
+availability and terms differ by jurisdiction.
+
 ## 5. Exclusions for the first release
 
 - Non-US reporting regimes unless separately added.
@@ -72,3 +78,4 @@ Company-level research can be added after the industry-level workflow is validat
 | v0.1 | 2026-08-23 | Set AI and semiconductors as the first Stock MVP industry scope. |
 | v0.2 | 2026-08-23 | Replaced the scope with technology and healthcare; added four demonstration companies. |
 | v0.3 | 2026-08-23 | Changed the MVP entry point from companies to US technology and healthcare industries. |
+| v0.4 | 2026-08-23 | Recorded the US and English scope explicitly; renamed the document and its file to match the sentiment scope; corrected the version header, which had stayed at v0.1 through three revisions. |

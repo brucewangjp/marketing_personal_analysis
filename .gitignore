@@ -1,0 +1,28 @@
+# Credentials — never commit data-source API keys
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Collected data and generated reports
+/data/*
+!/data/.gitkeep
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+*.egg-info/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Tooling and OS
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.DS_Store
+*.log

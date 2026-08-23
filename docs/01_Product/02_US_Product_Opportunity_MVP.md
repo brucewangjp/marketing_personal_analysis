@@ -1,7 +1,7 @@
 # US Product Opportunity MVP
 
-- Version: v0.1
-- Status: Draft
+- Version: v0.4
+- Status: Approved for MVP
 - Updated: 2026-08-23
 
 ## 1. Goal
@@ -49,7 +49,8 @@ The MVP is not an inventory-purchasing, wholesale, or investment-selection tool.
 ## 5. First-release boundaries
 
 - Focus on the United States only.
-- Begin with a small number of categories and approved sources.
+- Begin with a small number of categories, using free sources accessed by the tier order
+  in the shared source selection policy.
 - Do not claim a product is "best-selling" unless a source directly supports that claim.
 - Do not estimate revenue, market size, or sales volume without a defined data source and method.
 - Treat marketplace and search signals as indicators, not proof of total market sales.
@@ -66,17 +67,29 @@ The MVP is not an inventory-purchasing, wholesale, or investment-selection tool.
 
 ## 7. Open decisions
 
-- Which categories should be included first?
-- Which marketplaces and trend sources can be used under their terms?
-- Does the first version need actual sales data, or is it a demand-signal discovery tool?
-- What minimum evidence should qualify a product for the opportunity list?
+- Which three to five categories are used for the first demonstration reports?
+  Selection criteria are defined in `docs/03_Data/02_Product_Opportunity_MVP_Data_Sources.md` section 9.
+- Which marketplace publishes a usable free API for the chosen categories?
+
+Resolved: the first version reports demand signals and marketplace proxies, not measured
+sales — see `docs/03_Data/02_Product_Opportunity_MVP_Data_Sources.md` section 1. The
+minimum evidence for the opportunity list is one listed source covering the stated
+period and geography, which is the Medium level of the shared confidence rubric; anything
+below that is listed as a lead, not an opportunity.
+
+## 7.1 Shared contract
+
+This MVP inherits the terminology, evidence schema, confidence rubric, report header,
+presentation rules, and source selection policy defined in
+`docs/01_Product/00_Shared_Research_Foundation.md`. Where this document and the shared
+foundation disagree, the shared foundation wins.
 
 ## 8. Two-view decision model
 
 | View | Main question | Evidence needed | Key risk |
 | --- | --- | --- | --- |
-| Current sales reality | What is selling well now? | Licensed sales data or clearly labeled marketplace evidence. | Entering a crowded category too late. |
-| Emerging opportunity | What new need or idea is gaining attention but may not yet be crowded? | Search, review, and approved public-discussion signals. | Mistaking discussion or novelty for real demand. |
+| Current sales reality | What is selling well now? | Marketplace proxies — rank, review volume, listing density — always labeled as proxies, never as sales. | Entering a crowded category too late. |
+| Emerging opportunity | What new need or idea is gaining attention but may not yet be crowded? | Search, review, and public-discussion signals. | Mistaking discussion or novelty for real demand. |
 
 The product opportunity report should compare both views before recommending what the user should investigate next.
 
@@ -94,3 +107,4 @@ The product opportunity report should compare both views before recommending wha
 | v0.1 | 2026-08-23 | Initial US product-opportunity MVP draft. |
 | v0.2 | 2026-08-23 | Added two-view model: current sales reality and emerging product opportunities. |
 | v0.3 | 2026-08-23 | Confirmed US focus and product-development/product-sales use case. |
+| v0.4 | 2026-08-23 | Adopted the shared contract and the free-first source policy; resolved the sales-data and minimum-evidence questions; corrected the version header, which had stayed at v0.1 through three revisions. |

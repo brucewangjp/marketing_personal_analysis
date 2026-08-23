@@ -1,6 +1,6 @@
 # Industry Sentiment Report Template
 
-- Version: v0.1
+- Version: v0.2
 - Status: Draft
 - Updated: 2026-08-23
 
@@ -10,18 +10,24 @@ This document defines the final report the user should receive for the US techno
 
 The report analyzes group-level online signals. It does not diagnose individuals, provide personal investment advice, or claim that an online sample represents all people.
 
+## 1.1 Shared contract
+
+The report header, terminology, evidence schema, confidence rubric, presentation rules,
+and the gating rule for unavailable sources are defined once in
+`docs/01_Product/00_Shared_Research_Foundation.md`. This template does not restate them.
+
+Sections marked **Gated** below depend on a source that may not be connected for a given
+run. Under the shared gating rule they render as *Insufficient evidence*, naming the
+missing source and what it would have added. They are never omitted and never filled from
+a source that does not support them.
+
 ## 2. Report header
 
-Every report begins with:
+The shared report header (shared foundation, section 7), with these subject-specific values:
 
-- Industry: US technology or US healthcare.
-- Research question.
+- Subject: US technology or US healthcare.
 - Time range: most recent one month or most recent three months.
 - Report cadence: weekly.
-- Geographic scope.
-- Generated date.
-- Sources included and sources not yet available.
-- One-sentence statement of the report’s limitations.
 
 ## 3. Executive summary
 
@@ -60,7 +66,7 @@ Explain that search interest measures relative attention, not the number of peop
 
 Do not state that macroeconomic correlation proves why people feel or act a certain way.
 
-## 6. Group attitude
+## 6. Group attitude — **Gated: public-discussion source**
 
 ### User-facing view
 
@@ -74,7 +80,11 @@ Show the dominant group-level attitudes found in approved online signals:
 
 If evidence is insufficient, the report must say so instead of assigning an attitude.
 
-## 7. Motivations and concerns
+Until a public-discussion source is connected, this is the expected state of this section:
+search interest and macro indicators measure attention and environment, not attitude, and
+must not be used to infer one.
+
+## 7. Motivations and concerns — **Gated: public-discussion source**
 
 ### User-facing view
 
@@ -86,6 +96,9 @@ For each visible attitude, show the main explanations people give or that are st
 - Topics that are becoming more important over time.
 
 Each theme includes a source, date range, and short evidence summary.
+
+This section states why people hold a view, which only natural-language sources can
+support. Without a connected public-discussion source it renders as insufficient evidence.
 
 ## 8. Change over time
 
@@ -100,18 +113,13 @@ Describe what has changed during the selected period:
 
 ## 9. Evidence and confidence
 
-### User-facing view
+Every material finding carries the fields and the confidence level defined by the shared
+evidence schema and confidence rubric (shared foundation, sections 5 and 6). The report
+must make it easy for a user to open the original source where permitted.
 
-Every material finding includes:
-
-- Data source.
-- Date or measurement period.
-- Geographic and industry scope.
-- Evidence summary or metric.
-- Confidence: high, medium, low, or insufficient evidence.
-- Limitation of that source.
-
-The report must make it easy for a user to open the original source where permitted.
+Industry-specific note: a finding supported only by Google Trends is attention evidence at
+**Low** or **Medium** confidence depending on series stability, and can never support a
+statement about sentiment.
 
 ## 10. Monitoring list
 
@@ -132,7 +140,13 @@ End with a short list of items to follow in the next report:
 
 ## 12. Development instruction
 
-Claude Code should treat this document as the output contract. It should design the data schema, collection workflow, analysis steps, API shape, and user-interface layout required to create this report reliably.
+Claude Code should treat this document, together with the shared contract it references,
+as the output contract for the first MVP. It should design the collection workflow,
+analysis steps, API shape, and user-interface layout required to create this report
+reliably. The evidence schema is already fixed by the shared foundation.
+
+A first working version in which sections 6 and 7 render as insufficient evidence is a
+correct outcome, not an incomplete one.
 
 ## 13. Time-window behavior
 
@@ -146,3 +160,4 @@ Claude Code should treat this document as the output contract. It should design 
 | Version | Date | Change |
 | --- | --- | --- |
 | v0.1 | 2026-08-23 | Initial report-first template for the industry-sentiment MVP. |
+| v0.2 | 2026-08-23 | Referenced the shared contract instead of restating the header and confidence levels; marked sections 6 and 7 as gated on the public-discussion source. |
