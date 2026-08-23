@@ -1,6 +1,6 @@
 # Claude Code Implementation Brief
 
-- Version: v0.3
+- Version: v0.4
 - Status: Ready for implementation planning
 - Updated: 2026-08-23
 
@@ -17,7 +17,9 @@ Each report analyzes the most recent one month or most recent three months of av
 
 ## 1.1 Build order
 
-Two MVPs share one core. Build them in this order:
+Two MVPs share one core and one architecture. This is a confirmed decision (D10 in
+`docs/00_Foundation/00_Decision_Log.md`), not a suggestion open to revisiting during
+implementation. Build them in this order:
 
 | Order | MVP | Reuses |
 | --- | --- | --- |
@@ -206,3 +208,4 @@ When the first working version is complete, provide:
 | v0.1 | 2026-08-23 | Initial Claude Code implementation brief for the industry-sentiment MVP. |
 | v0.2 | 2026-08-23 | Added the two-MVP build order and MVP2's documents; adopted the tiered access policy in place of the blanket approved-source rule; added universal collector rules and Phase 5. |
 | v0.3 | 2026-08-23 | Added the official-statistics collector to Phase 5, following confirmation that free measured category sales data is available. |
+| v0.4 | 2026-08-23 | Recorded the shared-core build order as a confirmed decision and linked it to the decision log. |

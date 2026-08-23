@@ -1,6 +1,6 @@
 # System Architecture
 
-- Version: v0.3
+- Version: v0.4
 - Status: Draft
 - Updated: 2026-08-23
 
@@ -13,7 +13,9 @@ Build a personal research system with a shared core and two report products:
    same core.
 
 Modules 3.2 to 3.4 are shared. Only the research input and the report layout differ
-between the two. This document describes the core in terms of the first MVP, and marks
+between the two. Both MVPs run on this one architecture — a confirmed decision (D10 in
+`docs/00_Foundation/00_Decision_Log.md`). MVP2 adds a collector and a report template; it
+does not fork the stack. This document describes the core in terms of the first MVP, and marks
 where the second reuses it.
 
 The system serves the US technology and healthcare sectors first. The project owner uses it for investment research and product-development or product-selling decisions. The system uses online, existing data to identify group-level attention, attitudes, motivations, concerns, and changes over time.
@@ -148,3 +150,4 @@ Data governance applies to every module:
 | v0.1 | 2026-08-23 | Initial system architecture for the industry-sentiment MVP. |
 | v0.2 | 2026-08-23 | Described the shared core serving both MVPs; replaced the approved-source model with the tiered access policy; added the marketplace collector and the Google Trends fallback path; adopted the shared evidence schema and confidence rubric. |
 | v0.3 | 2026-08-23 | Generalized the FRED collector into an official-statistics collector covering Census, BEA, and BLS, which supply MVP2's measured category sales. |
+| v0.4 | 2026-08-23 | Recorded the one-architecture decision and linked it to the decision log. |

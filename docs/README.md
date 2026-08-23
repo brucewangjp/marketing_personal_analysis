@@ -12,6 +12,7 @@ that every other document defers to.
 | Document | What it fixes |
 | --- | --- |
 | `00_Vision.md` | Product vision, the two MVPs, scope, and success criteria. |
+| `00_Foundation/00_Decision_Log.md` | **Settled decisions and what is still open.** Read before reopening any question. |
 | `01_Product/00_Shared_Research_Foundation.md` | **The shared contract**: terminology, source access policy, evidence schema, confidence rubric, report header, gating rule. |
 | `01_Product/01_Industry_Sentiment_MVP.md` | MVP1 requirements: US technology and healthcare sentiment. |
 | `01_Product/02_US_Product_Opportunity_MVP.md` | MVP2 requirements: US product opportunity, two-view model. |
@@ -27,7 +28,7 @@ that every other document defers to.
 
 | Folder | Purpose |
 | --- | --- |
-| `00_Foundation` | Reserved for foundation documents. `00_Vision.md` sits at the `docs` root as the project-level starting point. |
+| `00_Foundation` | Decision log and foundation documents. `00_Vision.md` sits at the `docs` root as the project-level starting point. |
 | `01_Product` | Product requirements, user journeys, and feature definitions. |
 | `02_Research` | Target users, market research, data-source research, and assumptions. |
 | `03_Data` | Data model, source inventory, collection rules, quality, privacy, and rights. |
@@ -57,3 +58,7 @@ confusion in this repository before.
 
 **Precedence** — where any document disagrees with
 `01_Product/00_Shared_Research_Foundation.md`, the shared foundation wins.
+
+**Decisions** — a settled decision gets a row in `00_Foundation/00_Decision_Log.md`
+pointing at the document that specifies it. Reversing one means changing that document and
+adding a superseding row, never editing the decision in place.
