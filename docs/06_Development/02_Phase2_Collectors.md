@@ -1,6 +1,6 @@
 # Phase 2: Evidence and Data Pipeline
 
-- Version: v0.1
+- Version: v0.2
 - Status: Implemented
 - Updated: 2026-08-23
 
@@ -14,7 +14,9 @@ layers are unchanged from Phase 1 — which is what Phase 1 was shaped to prove.
 | `app/config.py` | Settings from the environment and a gitignored `.env`. Credentials never enter the repository. |
 | `app/collectors/base.py` | The collector contract, the request and result types, and shared record construction. |
 | `app/collectors/fred.py` | FRED, Tier 1 free API. |
+| `app/collectors/trends_api.py` | Google Trends, Tier 3 automated collection from the public interface. |
 | `app/collectors/trends_csv.py` | Google Trends, Tier 4 manual import and Tier 2 export. |
+| `app/collectors/trends.py` | Tries Tier 3, falls back to Tier 4. |
 | `app/collect.py` | The run: executes collectors, writes records, reports what happened. |
 | `app/check.py` | Self-check: confirms this machine can reach the sources and that their responses still match what the collectors expect. |
 
@@ -58,19 +60,39 @@ produces a warning, not a failed report, so a rename never costs a whole week.
 
 ## 4. Google Trends
 
-Trends publishes no stable public API, so the implementation brief requires the manual
-path to ship. The owner exports "Interest over time" and drops the CSV into
-`data/imports/trends/`. An example of the expected format is in
-`examples/trends_interest_over_time_example.csv`.
+Google publishes no documented API for Trends, so the source runs at two tiers and tries
+them in policy order.
+
+### Tier 3 — automated collection
+
+The Trends web interface calls an internal endpoint; the collector calls the same one.
+This is the Tier 3 route the source selection policy permits when no API and no export
+exists. It is unauthenticated, sends no cookies or credentials, reads only what a
+signed-out visitor sees, and stores a metric plus the query configuration — never a page
+copy and nothing personal.
+
+**When Google declines, it gives up.** A 429 or 403 is a failed result after a single
+attempt, and the run drops to Tier 4. There is no retry loop, no identity rotation, and no
+attempt to get around a block: that is the policy, and in practice pushing through would
+lose the source permanently.
+
+The endpoint is undocumented and does change. A response shape the collector does not
+recognise is a failed source, not a crash, and the CSV path takes over.
+
+### Tier 4 — manual import
+
+The reliable path, and the reason the automated one can be allowed to fail. The owner
+exports "Interest over time" and drops the CSV into `data/imports/trends/`. An example of
+the expected format is in `examples/trends_interest_over_time_example.csv`.
 
 The parser tolerates the export's leading preamble, a `Week`, `Day`, or `Month` column, a
 byte-order mark, and the `<1` value Trends writes for interest below one — stored as 0.5
 with that fact recorded in the record's limitation, because dropping it would misrepresent
 a real low reading as no reading at all.
 
-Records collected this way carry `access_method=manual` and a limitation saying the value
-is current only to the export. A future automated export adapter passes
-`tier=AccessMethod.EXPORT` and the same parser serves it.
+Records carry the tier that actually produced them — `web_collection` or `manual` — and
+the manual ones say in their limitation that the value is current only to the export.
+`--no-automated-trends` forces the CSV path.
 
 ## 5. Running a collection
 
@@ -92,9 +114,13 @@ unavailable source and reminds the reader that the report will say so.
   proxy rejects every data-source host — `api.stlouisfed.org`, `trends.google.com`,
   `api.census.gov`, `api.bls.gov`, `apps.bea.gov` — so every collector test runs against a
   mocked transport, written to the documented response shape rather than an observed one.
-  `python -m app.check` exists for exactly this: it makes one real metadata call and one
-  real observations call, and names any field the collector expects but did not get, so
-  the first real run diagnoses itself instead of failing somewhere deeper.
+  `python -m app.check` exists for exactly this: it makes one real metadata call, one real
+  observations call, and one real Trends collection, and names any field the collectors
+  expect but did not get, so the first real run diagnoses itself instead of failing
+  somewhere deeper.
+- The automated Trends collector has likewise never run against live Google. Expect it to
+  need adjustment, and expect it to break again later; the CSV path is what makes that
+  survivable rather than blocking.
 - `SUBJECT_SERIES` is empty: sector context is not yet collected.
 - Census, BEA, and BLS collectors — MVP2's measured category sales — are Phase 5.
 - The report cannot distinguish "source not connected" from "source connected but its
@@ -112,3 +138,4 @@ the monitoring list from real changes and gaps.
 | Version | Date | Change |
 | --- | --- | --- |
 | v0.1 | 2026-08-23 | Initial Phase 2 collectors: contract, FRED, Google Trends import, and the collection run. |
+| v0.2 | 2026-08-23 | Added the Tier 3 automated Trends collector and the tier fallback chain, so the manual export is the exception rather than the weekly routine. |

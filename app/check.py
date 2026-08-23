@@ -123,6 +123,37 @@ def check_observations(settings: config.Settings) -> bool:
     return True
 
 
+def check_trends_automated(settings: config.Settings) -> bool:
+    """Try the Tier 3 route, which is what saves the owner a manual export each week."""
+    from datetime import date, timedelta
+
+    from .collectors.base import CollectionRequest
+    from .collectors.trends_api import TrendsApiCollector
+
+    end = date.today()
+    result = TrendsApiCollector(settings).collect(
+        CollectionRequest("US technology", "United States", end - timedelta(days=90), end)
+    )
+    if result.failed:
+        _line(
+            WARN,
+            "Google Trends automated",
+            f"{result.reason}\n         "
+            "This is expected from time to time: the endpoint is undocumented and\n"
+            "         rate-limits. The CSV export path below is the reliable one.",
+        )
+        return False
+    if not result.records:
+        _line(WARN, "Google Trends automated", "reachable but returned no rows")
+        return False
+    _line(
+        OK,
+        "Google Trends automated",
+        f"{len(result.records)} row(s) collected; no manual export needed",
+    )
+    return True
+
+
 def check_trends(settings: config.Settings) -> bool:
     directory = settings.trends_import_dir
     if not directory.exists():
@@ -148,7 +179,7 @@ def main(argv: list[str] | None = None) -> int:
     fred_ok = check_fred(settings)
     if fred_ok:
         fred_ok = check_observations(settings)
-    trends_ok = check_trends(settings)
+    trends_ok = check_trends_automated(settings) or check_trends(settings)
 
     print()
     if fred_ok and trends_ok:

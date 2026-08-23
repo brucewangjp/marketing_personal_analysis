@@ -8,7 +8,7 @@ import pytest
 from app import collect, config
 from app.collectors.base import CollectionRequest, CollectionResult
 from app.collectors.fred import BASE_URL, FredCollector
-from app.collectors.trends_csv import TrendsCsvCollector
+from app.collectors.trends import TrendsCollector
 from app.reports import industry_sentiment as sentiment
 from app.sample import all_records
 from app.store import EvidenceStore
@@ -47,9 +47,14 @@ def settings(tmp_path):
 
 
 def _with_fred(monkeypatch, handler):
-    def build(settings):
+    """Mock FRED's transport; keep Trends on the CSV tier so no test touches Google."""
+
+    def build(settings, *, allow_automated_trends: bool = True):
         client = httpx.Client(transport=httpx.MockTransport(handler), base_url=BASE_URL)
-        return [FredCollector(settings, client=client), TrendsCsvCollector(settings)]
+        return [
+            FredCollector(settings, client=client),
+            TrendsCollector(settings, allow_automated=False),
+        ]
 
     monkeypatch.setattr(collect, "build_collectors", build)
 

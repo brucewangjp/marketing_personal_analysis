@@ -16,7 +16,7 @@ from datetime import date, timedelta
 from . import config
 from .collectors.base import CollectionRequest, CollectionResult, Collector
 from .collectors.fred import FredCollector
-from .collectors.trends_csv import TrendsCsvCollector
+from .collectors.trends import TrendsCollector
 from .models import InvalidRecord
 from .reports.industry_sentiment import SUBJECTS, WINDOWS
 from .store import EvidenceStore
@@ -24,8 +24,13 @@ from .store import EvidenceStore
 GEOGRAPHY = "United States"
 
 
-def build_collectors(settings: config.Settings) -> list[Collector]:
-    return [FredCollector(settings), TrendsCsvCollector(settings)]
+def build_collectors(
+    settings: config.Settings, *, allow_automated_trends: bool = True
+) -> list[Collector]:
+    return [
+        FredCollector(settings),
+        TrendsCollector(settings, allow_automated=allow_automated_trends),
+    ]
 
 
 def run(
@@ -34,8 +39,14 @@ def run(
     *,
     dry_run: bool = False,
     drop_sample: bool = False,
+    allow_automated_trends: bool = True,
 ) -> list[CollectionResult]:
-    results = [c.collect(request) for c in build_collectors(settings)]
+    results = [
+        c.collect(request)
+        for c in build_collectors(
+            settings, allow_automated_trends=allow_automated_trends
+        )
+    ]
 
     if dry_run:
         return results
@@ -103,6 +114,11 @@ def main(argv: list[str] | None = None) -> int:
         "--dry-run", action="store_true", help="collect but do not write to the store"
     )
     parser.add_argument(
+        "--no-automated-trends",
+        action="store_true",
+        help="skip automated Trends collection and use CSV exports only",
+    )
+    parser.add_argument(
         "--drop-sample",
         action="store_true",
         help="remove Phase 1 sample records before writing collected ones",
@@ -117,7 +133,11 @@ def main(argv: list[str] | None = None) -> int:
         period_end=args.as_of,
     )
     results = run(
-        request, settings, dry_run=args.dry_run, drop_sample=args.drop_sample
+        request,
+        settings,
+        dry_run=args.dry_run,
+        drop_sample=args.drop_sample,
+        allow_automated_trends=not args.no_automated_trends,
     )
     if args.dry_run:
         print("\n(dry run: nothing written)")

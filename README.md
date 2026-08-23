@@ -39,8 +39,10 @@ cp .env.example .env                # add your free FRED API key
 .venv/bin/python -m pytest
 ```
 
-A source that cannot be collected is never fatal: the run reports it, and the report
-sections that needed it say *insufficient evidence* naming what is missing.
+Google publishes no API for Trends, so that source is collected from its public interface
+and falls back to a manual CSV export when Google declines. A source that cannot be
+collected at all is never fatal: the run reports it, and the report sections that needed
+it say *insufficient evidence* naming what is missing.
 
 See [`docs/06_Development/01_Phase1_Technical_Design.md`](docs/06_Development/01_Phase1_Technical_Design.md)
 and [`docs/06_Development/02_Phase2_Collectors.md`](docs/06_Development/02_Phase2_Collectors.md)
