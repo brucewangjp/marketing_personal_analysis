@@ -173,6 +173,24 @@ class EvidenceStore:
         sql += " ORDER BY period_start, record_id"
         return [_from_row(r) for r in self._conn.execute(sql, params)]
 
+    def delete_sample_records(self) -> int:
+        """Drop Phase 1 sample data once real records exist.
+
+        Records that derive from a sample record go with it: leaving them would create
+        the dangling references the schema exists to prevent.
+        """
+        cursor = self._conn.execute(
+            """
+            DELETE FROM evidence WHERE is_sample = 1
+               OR record_id IN (
+                   SELECT e.record_id FROM evidence e, json_each(e.derived_from) d
+                   WHERE d.value IN (SELECT record_id FROM evidence WHERE is_sample = 1)
+               )
+            """
+        )
+        self._conn.commit()
+        return cursor.rowcount
+
     def subjects(self) -> list[str]:
         return [
             r[0]

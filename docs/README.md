@@ -24,6 +24,7 @@ that every other document defers to.
 | `05_Design/02_US_Product_Opportunity_Report_Template.md` | MVP2 output contract. |
 | `06_Development/00_Claude_Code_Implementation_Brief.md` | Build order, boundaries, phases, definition of done. |
 | `06_Development/01_Phase1_Technical_Design.md` | Phase 1 stack choice, module map, and handoff. |
+| `06_Development/02_Phase2_Collectors.md` | Phase 2 collector contract, FRED, and the Trends import path. |
 
 ## Folders
 

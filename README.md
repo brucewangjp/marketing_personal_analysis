@@ -22,20 +22,28 @@ written.
 
 ## Status
 
-Phase 1 implemented: the report shell, the evidence store, the confidence rubric, and the
-gating rule, running against clearly labeled sample evidence. No collectors yet — Phase 2
-replaces the sample module with a FRED collector without changing anything downstream.
+Phases 1 and 2 implemented: the report shell, the evidence store, the confidence rubric,
+the gating rule, and the collectors that feed them. Analysis that derives findings from
+signals is Phase 3.
 
 ```
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/python -m app.seed        # load sample evidence into ./data/evidence.db
+
+cp .env.example .env                # add your free FRED API key
+.venv/bin/python -m app.collect --subject "US technology" --window 3m
 .venv/bin/uvicorn app.main:app      # http://127.0.0.1:8000
+
+.venv/bin/python -m app.seed        # or: load sample evidence instead of collecting
 .venv/bin/python -m pytest
 ```
 
+A source that cannot be collected is never fatal: the run reports it, and the report
+sections that needed it say *insufficient evidence* naming what is missing.
+
 See [`docs/06_Development/01_Phase1_Technical_Design.md`](docs/06_Development/01_Phase1_Technical_Design.md)
-for the stack choice, module map, and known limitations.
+and [`docs/06_Development/02_Phase2_Collectors.md`](docs/06_Development/02_Phase2_Collectors.md)
+for the stack choice, the collector contract, and known limitations.
 
 ## Credentials
 
