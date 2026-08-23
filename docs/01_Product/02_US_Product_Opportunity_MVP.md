@@ -15,7 +15,7 @@ The MVP identifies evidence-based opportunities. It must label results as observ
 
 ## 2. Primary user
 
-The project owner, considering a product to develop or sell in the US market, who wants to answer questions such as:
+The project owner, considering a product to develop and sell in the US market, who wants to answer questions such as:
 
 - Which categories or products are currently strong or growing?
 - Who appears to buy them, and what do they value?
@@ -23,6 +23,8 @@ The project owner, considering a product to develop or sell in the US market, wh
 - What customer pain points and market gaps remain?
 - How crowded is the competitive landscape?
 - Is this already a heavily copied, saturated opportunity or an earlier-stage opportunity?
+
+The MVP is not an inventory-purchasing, wholesale, or investment-selection tool.
 
 ## 3. MVP workflow
 
@@ -78,9 +80,17 @@ The project owner, considering a product to develop or sell in the US market, wh
 
 The product opportunity report should compare both views before recommending what the user should investigate next.
 
+## 9. Confirmed initial scope
+
+- **Market:** United States.
+- **Primary use:** product development and product sales.
+- **Decisions supported:** what need to address, what product direction to explore, how to differentiate, which customer group to understand, and what sales message to test.
+- **Not the primary use:** inventory buying, wholesale sourcing, or financial investment selection.
+
 ## Change log
 
 | Version | Date | Change |
 | --- | --- | --- |
 | v0.1 | 2026-08-23 | Initial US product-opportunity MVP draft. |
 | v0.2 | 2026-08-23 | Added two-view model: current sales reality and emerging product opportunities. |
+| v0.3 | 2026-08-23 | Confirmed US focus and product-development/product-sales use case. |
